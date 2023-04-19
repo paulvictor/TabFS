@@ -18,12 +18,6 @@ jobs:
         with:
           fetch-depth: 1
 
-#       - name: Install libfuse-dev
-#         run: sudo apt-get install libfuse-dev
-
-#       - name: Compile the FUSE filesystem
-#         run: cd fs && make
-
       - name: Load Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -35,9 +29,6 @@ jobs:
       - name: Build browser extension
         run: web-ext build -s extension -n tabfs.xpi
 
-#       - name: Create tarball
-#         run: tar -cvf tabfs-filesystem.tar fs/tabfs install.sh
-
       - name: Set git commit hash
         id: vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
@@ -45,38 +36,7 @@ jobs:
       - name: "Create Release"
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: test1
+          tag_name:  ${{ steps.vars.outputs.sha_sha }}
           files: web-ext-artifacts/tabfs.xpi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-#       - name: Create release
-#         id: create_release
-#         uses: actions/create-release@v1
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           tag_name: dev/${{ steps.vars.outputs.sha_short }}
-#           release_name: 'Development Release #${{ steps.vars.outputs.sha_short }}'
-#           draft: false
-#           prerelease: true
-
-#       - name: Upload filesystem asset
-#         uses: actions/upload-release-asset@v1
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           upload_url: ${{ steps.create_release.outputs.upload_url }}
-#           asset_path: ./tabfs-filesystem.tar
-#           asset_name: tabfs-filesystem.tar
-#           asset_content_type: application/x-tar
-
-#       - name: Upload browser extension
-#         uses: actions/upload-release-asset@v1
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           upload_url: ${{ steps.create_release.outputs.upload_url }}
-#           asset_path: ./web-ext-artifacts/tabfs.xpi
-#           asset_name: tabfs-web-extension.xpi
-#           asset_content_type: application/zip
