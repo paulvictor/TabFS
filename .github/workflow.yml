@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
 
 jobs:
   build:
@@ -23,7 +22,6 @@ jobs:
           cmd: build
           source: src
           filename: "{name}-{version}.xpi"
-          ignoreFiles: '[ "package.json","package-lock.json","yarn.lock" ]'
 
       - name: "Upload Artifact"
         uses: actions/upload-artifact@v3
