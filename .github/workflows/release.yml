@@ -18,11 +18,11 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install libfuse-dev
-        run: sudo apt-get install libfuse-dev
+#       - name: Install libfuse-dev
+#         run: sudo apt-get install libfuse-dev
 
-      - name: Compile the FUSE filesystem
-        run: cd fs && make
+#       - name: Compile the FUSE filesystem
+#         run: cd fs && make
 
       - name: Load Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -35,8 +35,8 @@ jobs:
       - name: Build browser extension
         run: web-ext build -s extension -n tabfs.xpi
 
-      - name: Create tarball
-        run: tar -cvf tabfs-filesystem.tar fs/tabfs install.sh
+#       - name: Create tarball
+#         run: tar -cvf tabfs-filesystem.tar fs/tabfs install.sh
 
       - name: Set git commit hash
         id: vars
@@ -46,7 +46,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: test1
-          files: tabfs.xpi
+          files: web-ext-artifacts/tabfs.xpi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
