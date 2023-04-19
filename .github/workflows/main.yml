@@ -22,4 +22,11 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: tabFS.xpi
-          path: ${{ steps.web-ext-build.outputs.target }}
+          path: downloads
+      - name: "Create Release"
+        uses: softprops/action-gh-release@v1
+        with:
+          name: TabFS.xpi
+          files: tabFS.xpi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
