@@ -1,0 +1,42 @@
+name: Build and release TabFS for Linux
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16 ]
+
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+
+      - name: Load Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Web-ext
+        run: npm install --global web-ext
+
+      - name: Build browser extension
+        run: web-ext build -s extension -n tabfs.xpi
+
+      - name: Set git commit hash
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: "Create Release"
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name:  ${{ steps.vars.outputs.sha_short }}
+          files: web-ext-artifacts/tabfs.xpi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
