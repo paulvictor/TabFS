@@ -22,14 +22,14 @@ jobs:
 #         uses: actions/upload-artifact@v3
 #         with:
 #           path: *.xpi
-      - name: Generate release tag
-        id: tag
-        run: |
-          echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
+#       - name: Generate release tag
+#         id: tag
+#         run: |
+#           echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
       - name: "Create Release"
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.tag.outputs.release_tag }}
+          tag_name: test1
           files: *.xpi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
