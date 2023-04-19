@@ -31,12 +31,12 @@ jobs:
 
       - name: Set git commit hash
         id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+        run: echo "SHA_SHORT=$(git rev-parse --short HEAD) >> $GITHUB_OUTPUT"
 
       - name: "Create Release"
         uses: softprops/action-gh-release@v1
         with:
-          tag_name:  ${{ steps.vars.outputs.sha_sha }}
+          tag_name:  ${{ steps.vars.outputs.sha_short }}
           files: web-ext-artifacts/tabfs.xpi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
