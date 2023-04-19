@@ -18,15 +18,15 @@ jobs:
           cmd: build
           source: extension
           filename: "{name}-{version}.xpi"
-      - name: "Upload Artifact"
-        uses: actions/upload-artifact@v3
-        with:
-          name: tabFS.xpi
-          path: downloads
+#       - name: "Upload Artifact"
+#         uses: actions/upload-artifact@v3
+#         with:
+#           name: tabFS.xpi
+#           path: downloads
       - name: "Create Release"
         uses: softprops/action-gh-release@v1
         with:
-          name: TabFS.xpi
-          files: tabFS.xpi
+          files: |
+            *.xpi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
