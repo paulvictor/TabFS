@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - master
-    tags:
-      - "*"
 
 jobs:
   build:
@@ -20,10 +18,10 @@ jobs:
           cmd: build
           source: extension
           filename: "{name}-{version}.xpi"
-      - name: "Upload Artifact"
-        uses: actions/upload-artifact@v3
-        with:
-          path: *.xpi
+#       - name: "Upload Artifact"
+#         uses: actions/upload-artifact@v3
+#         with:
+#           path: *.xpi
       - name: Generate release tag
         id: tag
         run: |
