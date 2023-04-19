@@ -4,7 +4,7 @@ on:
     branches:
       - master
     tags:
-      - "v*"
+      - "*"
 
 jobs:
   build:
@@ -20,16 +20,18 @@ jobs:
           cmd: build
           source: extension
           filename: "{name}-{version}.xpi"
-#       - name: "Upload Artifact"
-#         uses: actions/upload-artifact@v3
-#         with:
-#           name: tabFS.xpi
-#           path: downloads
+      - name: "Upload Artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          path: *.xpi
+      - name: Generate release tag
+        id: tag
+        run: |
+          echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
       - name: "Create Release"
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v1.0
-          files: |
-            *.xpi
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          files: *.xpi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
