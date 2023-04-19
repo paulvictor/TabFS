@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [16]
 
     steps:
       - uses: actions/checkout@master
@@ -25,7 +25,7 @@ jobs:
         run: cd fs && make
 
       - name: Load Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
