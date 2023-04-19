@@ -31,7 +31,7 @@ jobs:
 
       - name: Set git commit hash
         id: vars
-        run: echo "SHA_SHORT=$(git rev-parse --short HEAD) >> $GITHUB_OUTPUT"
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
       - name: "Create Release"
         uses: softprops/action-gh-release@v1
