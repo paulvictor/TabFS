@@ -75,7 +75,7 @@ const utf8ArrayToBase64 = async (data) => {
 
     /*
     The result looks like
-    "data:application/octet-stream;base64,<your base64 data>", 
+    "data:application/octet-stream;base64,<your base64 data>",
     so we split off the beginning:
     */
     return base64url.split(",", 2)[1]
@@ -184,7 +184,7 @@ const makeRouteWithContents = (function() {
 
 // Helper function: returns a route handler for `path` based on all
 // the children of `path` that already exist in Routes.
-// 
+//
 // e.g., if `Routes['/tabs/create']` and `Routes['/tabs/by-id']` and
 // `Routes['/tabs/last-focused']` are all already defined, then
 // `makeDefaultRouteForDirectory('/tabs')` will return a route that
@@ -366,7 +366,7 @@ function createWritableDirectory() {
   // writable directory that users can put arbitrary stuff into. It's
   // not itself a route, but it has .routeForRoot and
   // .routeForFilename properties that are routes.
-  
+
   const dir = {};
   return {
     directory: dir,
@@ -704,7 +704,7 @@ Routes["/windows/#WINDOW_ID/visible-tab.png"] = { ...makeRouteWithContents(async
 } };
 
 
-Routes["/extensions"] = {  
+Routes["/extensions"] = {
   async readdir() {
     const infos = await browser.management.getAll();
     return { entries: [".", "..", ...infos.map(info => `${sanitize(info.name)}.${info.id}`)] };
@@ -862,7 +862,7 @@ for (let key in Routes) {
   // if readdir -> directory -> add getattr, opendir, releasedir
   if (Routes[key].readdir) {
     Routes[key] = {
-      getattr() { 
+      getattr() {
         return {
           st_mode: unix.S_IFDIR | 0755,
           st_nlink: 3,
@@ -887,7 +887,7 @@ for (let key in Routes) {
       },
       ...Routes[key]
     };
-    
+
   } else if (Routes[key].read || Routes[key].write) {
     Routes[key] = {
       async getattr() {
@@ -911,7 +911,7 @@ const sortedRoutes = Object.values(Routes).sort((a, b) =>
 function tryMatchRoute(path) {
   if (path.match(/\/\._[^\/]+$/)) {
     // Apple Double ._whatever file for xattrs
-    throw new UnixError(unix.ENOTSUP); 
+    throw new UnixError(unix.ENOTSUP);
   }
 
   for (let route of sortedRoutes) {
@@ -971,7 +971,7 @@ function tryConnect() {
   // and boot a WebSocket, then connect to it.
   // Is there a better way to do this?
   if (chrome.runtime.getURL('/').startsWith('safari-web-extension://')) { // Safari-only
-    chrome.runtime.sendNativeMessage('com.rsnous.tabfs', {op: 'safari_did_connect'}, resp => {
+    chrome.runtime.sendNativeMessage('com.paulvictor.tabfs', {op: 'safari_did_connect'}, resp => {
       console.log(resp);
 
       let socket;
@@ -997,8 +997,8 @@ function tryConnect() {
     });
     return;
   }
-  
-  port = chrome.runtime.connectNative('com.rsnous.tabfs');
+
+  port = chrome.runtime.connectNative('com.paulvictor.tabfs');
   port.onMessage.addListener(onMessage);
   port.onDisconnect.addListener(p => {
     console.log('disconnect', p);
@@ -1009,7 +1009,7 @@ function tryConnect() {
 if (typeof process === 'object') {
   // we're running in node (as part of a test)
   // return everything they might want to test
-  module.exports = {Routes, tryMatchRoute}; 
+  module.exports = {Routes, tryMatchRoute};
 
 } else {
   tryConnect();
