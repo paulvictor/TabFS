@@ -27,7 +27,7 @@ jobs:
         run: npm install --global web-ext
 
       - name: Build browser extension
-        run: rm -rf extension/safari && web-ext build -s extension -n TabFS-1.0.xpi
+        run: web-ext build -i safari -s extension -n TabFS-1.0.xpi && mv web-ext-artifacts/{tabfs,TabFS}-1.0.xpi
 
       - name: Set git commit hash
         id: vars
