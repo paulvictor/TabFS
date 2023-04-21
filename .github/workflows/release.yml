@@ -37,6 +37,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name:  ${{ steps.vars.outputs.sha_short }}
-          files: web-ext-artifacts/tabfs.xpi
+          files: web-ext-artifacts/TabFS-1.0.xpi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
